@@ -1,0 +1,49 @@
+server:
+  port: 6549
+#  servlet.context-path: /auth
+
+spring:
+  liquibase:
+    enabled: true
+#    contexts: ${LIQUIBASE_USER_CONTEXTS}
+    change-log: classpath:/changelog/db.changelog-master.yaml
+
+  jpa:
+    show-sql: false
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
+      ddl-auto: update
+#    generate-ddl: true
+    database: postgresql
+
+  datasource:
+    tomcat:
+      default-auto-commit: true
+      test-on-borrow: true
+      test-on-connect: true
+      validation-query: SELECT 1
+      jmx-enabled: true
+    platform: postgres-playground #${calendar.dataSource.platform}
+    url: jdbc:h2:mem:test
+    driver-class-name: org.postgresql.Driver # ${calendar.dataSource.driverClassName}
+    initialization-mode: always
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+      jwt:
+        key-value: fDw7Mpkk5czHNuSRtmhGmAGL42CaxQB9 #public key
+        key-uri: http://localhost:6549/oauth/token_key
+    client:
+      client-id: client-id
+      client-secret: client-secret
+
+user:
+  oauth:
+    clientId: R2dpxQ3vPrtfgF72
+    clientSecret: fDw7Mpkk5czHNuSRtmhGmAGL42CaxQB9
+    redirectUris: http://localhost:6549/login/oauth2/code/
+  user:
+    username: Richard
+    password: abcd

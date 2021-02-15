@@ -1,0 +1,150 @@
+databaseChangeLog:
+  - changeSet:
+      id: create default user
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from user_details where username = 'test'
+      changes:
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: username
+                  value: "test"
+              - column:
+                  name: password
+                  value: "$2a$10$X9OnP0W2ebqAZQLZPg7fsupdzFyHWl8oN4KtqCy23okyP1km2kGsu"
+              - column:
+                  name: firstname
+                  value: "test"
+              - column:
+                  name: lastname
+                  value: "test"
+              - column:
+                  name: email
+                  value: "test@test.com"
+
+  - changeSet:
+      id: create super admin user
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from user_details where username = 'superadmin'
+      changes:
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: id
+                  value: "2"
+              - column:
+                  name: username
+                  value: "superadmin"
+              - column:
+                  name: password
+                  value: "$2a$10$X9OnP0W2ebqAZQLZPg7fsupdzFyHWl8oN4KtqCy23okyP1km2kGsu"
+              - column:
+                  name: firstname
+                  value: "Super"
+              - column:
+                  name: lastname
+                  value: "Admin"
+              - column:
+                  name: email
+                  value: "super@admin.com"
+
+  - changeSet:
+      id: create superadmin role
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from role where role_name = 'superadmin'
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: role_name
+                  value: "superadmin"
+              - column:
+                  name: role_description
+                  value: "user can make any changes to the system"
+
+  - changeSet:
+      id: create approver role
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from role where role_name = 'approver'
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: "2"
+              - column:
+                  name: role_name
+                  value: "approver"
+              - column:
+                  name: role_description
+                  value: "user can approve requests"
+
+  - changeSet:
+      id: create requester role
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from role where role_name = 'requester'
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: "3"
+              - column:
+                  name: role_name
+                  value: "requester"
+              - column:
+                  name: role_description
+                  value: "user can request time off"
+
+  - changeSet:
+      id: Give superadmin role to superadmin user
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from user_role where user_id = '2'
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: user_id
+                  value: "2"
+              - column:
+                  name: role_id
+                  value: "1"

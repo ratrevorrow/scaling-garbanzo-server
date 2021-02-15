@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create default user
+      author: rtrevorrow
+      preConditions:
+        - onFail: MARK_RAN
+          sqlCheck:
+            expectedResult: 0
+            sql: select count(0) from user_details where username = 'test'
+      changes:
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: username
+                  value: "test"
+              - column:
+                  name: password
+                  value: "$2a$10$X9OnP0W2ebqAZQLZPg7fsupdzFyHWl8oN4KtqCy23okyP1km2kGsu"
+              - column:
+                  name: firstname
+                  value: "test"
+              - column:
+                  name: lastname
+                  value: "test"
+              - column:
+                  name: email
+                  value: "test@test.com"
