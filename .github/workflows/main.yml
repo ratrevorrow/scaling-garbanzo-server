@@ -1,0 +1,10 @@
+on: [push]
+
+jobs:
+  bump_version_job:
+    runs-on: ubuntu-latest
+    name: A job to bump the pom version
+    steps:
+    - name: version bump step
+      id: hello1
+      uses: actions/user-service@v1
