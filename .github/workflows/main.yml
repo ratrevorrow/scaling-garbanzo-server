@@ -7,4 +7,4 @@ jobs:
     steps:
     - name: version bump step
       id: hello1
-      uses: ratrevorrow/scaling-garbanzo-user-service
+      uses: ratrevorrow/scaling-garbanzo-user-service@gh-action
