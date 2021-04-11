@@ -16,6 +16,6 @@ The time we greeted you.
 
 ## Example usage
 
-uses: actions/bump-version@v1
+uses: actions/user-service@v1
 with:
   who-to-greet: 'Mona the Octocat'
