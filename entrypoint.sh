@@ -18,5 +18,9 @@ function bump {
     esac
 }
 
-OLD_VERSION=$(cat pom.xml | grep "<version>.*</version>" | head -1 | awk -F'[><]' '{print $3}')
-BUMP_MODE=$(git log | grep -E -- 'major|minor|patch' | sed -n 1p)
+OLD_VERSION=$(cat pom.xml | grep "<version>.*</version>" | sed -n 2p | awk -F'[><]' '{print $3}')
+BUMP_MODE=$(git log | grep -E -- 'major|minor|patch' | sed -n 1p | cut -d'#' -f 2 | cut -d ' ' -f 1)
+
+bump $BUMP_MODE $OLD_VERSION
+echo "pom.xml will be bumped from" $OLD_VERSION "to" $NEW_VERSION
+mvn versions:set -DnewVersion="${NEW_VERSION}"

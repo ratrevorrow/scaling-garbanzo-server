@@ -1,0 +1,20 @@
+name: bump pom
+author: rtrevorrow
+description: bumps the pom to the new version
+runs:
+  using: docker
+  image: Dockerfile
+  # env:
+    # TOKEN: ${{ inputs.github-token }}
+    # EMAIL: ${{ inputs.git-email }}
+    # NAME: ${{ inputs.git-username }}
+    # POMPATH: ${{ inputs.pom-path}}
+# on:
+#   push:
+#     branches:
+#       - dev
+#     # tags:
+#     #   - 'v*.*.*'
+#   pull_request:
+#     types:
+#       - labeled
