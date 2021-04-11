@@ -1,5 +1,6 @@
 package com.rtrevorrow.user.model;
 
+import com.rtrevorrow.user.dto.UserDto;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -39,4 +40,12 @@ public class User {
 //    private boolean canApprove;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserRole> userRoles = new ArrayList<>();
+
+    public UserDto toDto() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername(this.getUsername());
+        userDto.setFirstName(this.getFirstName());
+        userDto.setLastName(this.getLastName());
+        return userDto;
+    }
 }

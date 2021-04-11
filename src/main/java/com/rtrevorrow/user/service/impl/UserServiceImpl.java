@@ -1,5 +1,6 @@
 package com.rtrevorrow.user.service.impl;
 
+import com.rtrevorrow.user.dto.UserDto;
 import com.rtrevorrow.user.model.User;
 import com.rtrevorrow.user.repository.UserRepository;
 import com.rtrevorrow.user.service.UserService;
@@ -8,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,17 +23,19 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public Page<User> list(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserDto> list(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+
+        return users.map(User::toDto);
     }
 
     @Override
-    public User update(User user) {
-        return userRepository.save(user);
+    public UserDto update(User user) {
+        return userRepository.save(user).toDto();
     }
 
     @Override
-    public User create(User user) {
+    public UserDto create(User user) {
         userRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User already exists"));
 
@@ -38,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(null);
 
-        return user;
+        return user.toDto();
     }
 
     @Override

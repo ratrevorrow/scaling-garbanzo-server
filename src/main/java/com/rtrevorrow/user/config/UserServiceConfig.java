@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         basePackages={
                 "com.rtrevorrow.user",
                 "com.rtrevorrow.user.authentication",
+                "com.rtrevorrow.user.authorization",
                 "com.rtrevorrow.user.config",
                 "com.rtrevorrow.user.model",
                 "com.rtrevorrow.user.repository",

@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -20,4 +21,6 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private boolean isCredentialsNonExpired = false;
     private boolean isEnabled = false;
     private boolean isAccountNonLocked = false;
+    private String jwtToken;
+    private List<String> roles;
 }

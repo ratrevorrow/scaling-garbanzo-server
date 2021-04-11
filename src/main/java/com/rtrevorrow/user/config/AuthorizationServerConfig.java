@@ -39,38 +39,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public JwtAccessTokenConverter tokenEnhancer() {
-//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-//        converter.setSigningKey(privateKey);
-//        converter.setVerifierKey(publicKey);
-//        return converter;
-//    }
-
-//    @Bean
-//    public JwtTokenStore tokenStore() {
-//        return new JwtTokenStore(tokenEnhancer());
-//    }
-
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager);
-//                .tokenStore(tokenStore())
-//                .accessTokenConverter(tokenEnhancer());
     }
 
-//    @Override
-//    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-//        oauthServer
-//                .allowFormAuthenticationForClients()
-//                .tokenKeyAccess("permitAll()")
-//                .checkTokenAccess("isAuthenticated()")
-//        ;
-//    }
-
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        oauthServer
+                .allowFormAuthenticationForClients()
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()")
+        ;
     }
 
 //    @Override

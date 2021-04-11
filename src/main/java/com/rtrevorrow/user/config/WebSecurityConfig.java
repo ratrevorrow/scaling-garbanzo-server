@@ -2,7 +2,9 @@ package com.rtrevorrow.user.config;
 
 import com.rtrevorrow.user.authentication.AuthenticationFailureHandler;
 import com.rtrevorrow.user.authentication.AuthenticationSuccessHandler;
+import com.rtrevorrow.user.authentication.JWTAuthenticationFilter;
 import com.rtrevorrow.user.authentication.ServerUserDetailsService;
+import com.rtrevorrow.user.authorization.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -50,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 // open endpoints to everyone
-                .antMatchers(HttpMethod.POST, "/login*").permitAll()
+//                .antMatchers(HttpMethod.POST, "/login*").permitAll()
 
                 // super admin endpoints only
                 .antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority(SUPER_ADMIN)
@@ -63,6 +67,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // only super admin can use other endpoints
                 .anyRequest().hasAnyAuthority(SUPER_ADMIN)
+
+                .and()
+                .addFilterBefore(new JWTAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager(), userDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 
                 // login / logout details
                 .and()

@@ -1,5 +1,6 @@
 package com.rtrevorrow.user.controller;
 
+import com.rtrevorrow.user.dto.UserDto;
 import com.rtrevorrow.user.model.User;
 import com.rtrevorrow.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 @EnableSpringDataWebSupport
-public class UserController implements BaseController<User> {
+public class UserController {
 
     @Autowired
     UserService userService;
 
     @GetMapping("/list")
-    public Page<User> list(@PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
+    public Page<UserDto> list(@PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         return userService.list(pageable);
     }
 
+    // TODO: CHANGE USER TO USERDTO IN PARAMETER
     @PostMapping
-    public User create(@Validated @RequestBody User user) {
+    public UserDto create(@Validated @RequestBody User user) {
         return userService.create(user);
     }
 
     @PutMapping
-    public User update(@Validated @RequestBody User user) { return userService.update(user); }
+    public UserDto update(@Validated @RequestBody User user) { return userService.update(user); }
 
     @DeleteMapping
     public void delete(@RequestParam("id") Long id) {
